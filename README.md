@@ -1,6 +1,6 @@
 # VocaGame Tech Test - Lukman Rambe
 
-This is a project for Campaign Technical Assignment. A website to list all TV Shows from an API.
+This is a project for VocaGame Technical Assignment.
 
 ## Technical Assignment Details ##
 
