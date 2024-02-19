@@ -61,7 +61,7 @@ const Register = () => {
 
 			<div className='w-full xl:max-w-2xl flex flex-col justify-center px-4 sm:px-6 md:px-12 xl:px-24 py-12'>
 				<article className='mb-10'>
-					<h1 className='text-[44px] font-extrabold tracking-tight text-heading dark:text-white md:text-[56px] lg:text-[64px]'>
+					<h1 className='text-[44px] font-extrabold tracking-tight text-heading md:text-[56px] lg:text-[64px]'>
 						Daftarkan Akun
 					</h1>
 
