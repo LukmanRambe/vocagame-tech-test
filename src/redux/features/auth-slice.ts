@@ -29,8 +29,8 @@ export const auth = createSlice({
 	reducers: {
 		logout: () => {
 			Cookies.remove('xtfs');
-			Cookies.remove('theme');
-			Cookies.remove('user');
+			Cookies.set('users', JSON.stringify([]));
+			Cookies.set('user', JSON.stringify({ id: '', username: '', password: '', phoneNumber: '' }));
 
 			return initialState;
 		},

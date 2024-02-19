@@ -2,19 +2,25 @@
 
 import Button from '@/components/artifacts/Button';
 import FormGroup from '@/components/artifacts/FormGroup';
-import { editProfile, setUserData } from '@/redux/features/auth-slice';
+import { editProfile } from '@/redux/features/auth-slice';
 import { AppDispatch } from '@/redux/store';
+import { User } from '@/ts/types/main/User';
 import { EditProfileFormValues } from '@/ts/types/schema/EditProfile';
 import { editProfileSchema } from '@/utils/schemaValidation/auth/editProfileSchema';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Cookies from 'js-cookie';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { GrEdit } from 'react-icons/gr';
 import { useDispatch } from 'react-redux';
 
 const Profile = () => {
-	const userData = Cookies.get('user') && JSON.parse(Cookies.get('user') as string);
+	const [userData, setUserData] = useState<User>({
+		id: '',
+		username: '',
+		phoneNumber: '',
+		password: '',
+	});
 
 	const dispatch = useDispatch<AppDispatch>();
 
@@ -38,10 +44,10 @@ const Profile = () => {
 	};
 
 	useEffect(() => {
-		if (userData) {
-			setUserData(userData);
-		}
-	}, [userData]);
+		const data = (Cookies.get('user') && JSON.parse(Cookies.get('user') as string)) ?? '';
+
+		setUserData(data);
+	}, []);
 
 	return (
 		<section className='w-full bg-white rounded-lg shadow-xl px-5 xl:px-10 py-8'>

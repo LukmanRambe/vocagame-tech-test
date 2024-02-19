@@ -15,7 +15,11 @@ const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
 		return <>{children}</>;
 	}
 
-	return <NextThemeProvider attribute='class'>{children}</NextThemeProvider>;
+	return (
+		<NextThemeProvider enableSystem={false} attribute='class'>
+			{children}
+		</NextThemeProvider>
+	);
 };
 
 export default ThemeProvider;

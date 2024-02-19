@@ -1,6 +1,6 @@
 'use client';
 
-import { AppDispatch } from '@/redux/store';
+import { AppDispatch, useAppSelector } from '@/redux/store';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
@@ -10,16 +10,19 @@ import Button from '@/components/artifacts/Button';
 import FormGroup from '@/components/artifacts/FormGroup';
 import { useToast } from '@/hooks/useToast';
 import { register as reduxRegister } from '@/redux/features/auth-slice';
+import { User } from '@/ts/types/main/User';
 import { RegisterFormValues } from '@/ts/types/schema/RegisterSchema';
 import { registerSchema } from '@/utils/schemaValidation/auth/registerSchema';
 import Cookies from 'js-cookie';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 const Register = () => {
+	const { users } = useAppSelector((state) => state.authReducer);
+	const [usersData, setUsersData] = useState<User[]>(users);
 	const router = useRouter();
 	const { addToast } = useToast();
-	const users = Cookies.get('users') && JSON.parse(Cookies.get('users') as string);
 	const dispatch = useDispatch<AppDispatch>();
 
 	const {
@@ -33,8 +36,8 @@ const Register = () => {
 		resolver: yupResolver(registerSchema),
 	});
 
-	const handleLogin = (formData: RegisterFormValues) => {
-		const userExist = users.filter((user: { username: string }) => user.username === formData.username);
+	const handleRegister = (formData: RegisterFormValues) => {
+		const userExist = usersData?.filter((user: { username: string }) => user.username === formData.username);
 
 		if (userExist.length > 0) {
 			addToast({ type: 'error', message: 'User already exists!' });
@@ -45,6 +48,12 @@ const Register = () => {
 		dispatch(reduxRegister(formData));
 		router.push('/auth/login');
 	};
+
+	useEffect(() => {
+		const data = (Cookies.get('users') && JSON.parse(Cookies.get('users') as string)) ?? '';
+
+		setUsersData(data);
+	}, []);
 
 	return (
 		<section className='relative w-full min-h-dvh flex items-center justify-center bg-primary-50/65'>
@@ -57,8 +66,6 @@ const Register = () => {
 				className='hidden xl:block absolute top-10 left-10 object-cover'
 			/>
 
-			<Image src='/assets/oval.svg' width={500} height={500} alt='oval' priority className='absolute top-0 left-0' />
-
 			<div className='w-full xl:max-w-2xl flex flex-col justify-center px-4 sm:px-6 md:px-12 xl:px-24 py-12'>
 				<article className='mb-10'>
 					<h1 className='text-[44px] font-extrabold tracking-tight text-heading md:text-[56px] lg:text-[64px]'>
@@ -68,7 +75,7 @@ const Register = () => {
 					<p className='mt-2 text-base text-gray-600'>Daftar akun anda dengan mengisi form dibawah</p>
 				</article>
 
-				<form onSubmit={handleSubmit(handleLogin)} className='w-full flex flex-col gap-5'>
+				<form onSubmit={handleSubmit(handleRegister)} className='w-full flex flex-col gap-5'>
 					<FormGroup
 						{...register('username')}
 						id='username'

@@ -35,9 +35,9 @@ const Login = () => {
 	});
 
 	const handleLogin = (formData: LoginFormValues) => {
-		const userExist = users.filter((user: { username: string }) => user.username === formData.username);
+		const userExist = users?.filter((user: { username: string }) => user.username === formData.username);
 
-		if (userExist.length <= 0) {
+		if (users && userExist?.length <= 0) {
 			addToast({ type: 'error', message: 'User not found. Please use a valid, registered User!' });
 			return;
 		}
