@@ -1,4 +1,4 @@
-# Campflix - Lukman Rambe
+# VocaGame Tech Test - Lukman Rambe
 
 This is a project for Campaign Technical Assignment. A website to list all TV Shows from an API.
 
